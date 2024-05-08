@@ -57,9 +57,9 @@ tasks.withType<JacocoReport> {
 
 sonarqube {
     properties {
-        property("sonar.projectKey", "UrlShort")
-        property("sonar.host.url", "http://localhost:9000")
-        property("sonar.token", "squ_752acaccd9861e17d4e0e56d17812b17306578e6")
+        property("sonar.projectKey", project.findProperty("sonar.projectKey") ?: "UrlShort")
+        property("sonar.host.url", project.findProperty("sonar.host.url") ?: "http://localhost:9000")
+        property("sonar.token", project.findProperty("sonar.token") ?: "token")
         property("sonar.language", "kotlin")
         property("sonar.sources", "src/main/kotlin")
         property("sonar.tests", "src/test/kotlin")

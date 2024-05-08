@@ -1,0 +1,3 @@
+sonar.projectKey=UrlShort
+sonar.host.url=http://localhost:9000
+sonar.token=

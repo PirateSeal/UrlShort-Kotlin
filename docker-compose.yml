@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  sonarqube:
+    image: sonarqube:latest
+    ports:
+      - 9000:9000
+  db:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_DB: urlshort
+      POSTGRES_USER: seal
+      POSTGRES_PASSWORD: password
+    ports:
+      - 5432:5432
+
+  db_test:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_DB: urlshort_test
+      POSTGRES_USER: seal
+      POSTGRES_PASSWORD: password
+    ports:
+      - 5433:5432
+
+  adminer:
+    image: adminer:latest
+    restart: always
+    ports:
+      - 8080:8080

@@ -43,6 +43,7 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+    reports.junitXml.outputLocation = layout.buildDirectory.dir("test-results/test")
 }
 
 sonarqube {
@@ -51,9 +52,6 @@ sonarqube {
         property("sonar.host.url", "http://localhost:9000")
         property("sonar.token", "squ_752acaccd9861e17d4e0e56d17812b17306578e6")
         property("sonar.language", "kotlin")
-        property("sonar.sourceEncoding", "UTF-8")
-        property("sonar.sources", "src/main/kotlin")
-        property("sonar.tests", "src/test/kotlin")
-        property("sonar.junit.reportPaths", "build/test-results/test")
+        property("sonar.junit.reportPaths", "${layout.buildDirectory.get().asFile}/test-results/test")
     }
 }

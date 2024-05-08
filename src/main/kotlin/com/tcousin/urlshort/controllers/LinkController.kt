@@ -42,7 +42,7 @@ class LinkController @Autowired constructor(private val dataAccess: DataAccessIm
     }
 
     @DeleteMapping("/{uuid}")
-    fun delete(@PathVariable uuid: String): ResponseEntity<Void> {
+    fun delete(@PathVariable uuid: String): ResponseEntity<Unit> {
         val response = dataAccess.delete(uuid)
         return if (response) ResponseEntity.noContent().build() else ResponseEntity.notFound().build()
     }

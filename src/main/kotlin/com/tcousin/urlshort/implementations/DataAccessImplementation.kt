@@ -17,9 +17,9 @@ class DataAccessImplementation @Autowired constructor(private val namedParameter
     DataAccessInterface {
     override fun create(url: String): ShortenedUrl {
         val search = findByUrl(url)
-        if (search != null) {
+        return if (search != null) {
             incrementUsage(search.uuid)
-            return search
+            search
         } else {
             val shortenedUrl = ShortenedUrl(url)
             val sql =
@@ -31,7 +31,7 @@ class DataAccessImplementation @Autowired constructor(private val namedParameter
                 .addValue("creation_date", shortenedUrl.creationDate)
                 .addValue("last_access_date", shortenedUrl.lastAccessDate)
             namedParameterJdbcTemplate.update(sql, namedParameters)
-            return shortenedUrl
+            shortenedUrl
         }
     }
 

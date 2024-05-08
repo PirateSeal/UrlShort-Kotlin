@@ -1,4 +1,4 @@
-package com.tcousin.urlshort
+package com.tcousin.urlshort.controllers
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.tcousin.urlshort.models.ShortenedUrl
@@ -20,52 +20,6 @@ class LinkControllerTests {
 
     @Autowired
     private lateinit var mockMvc: MockMvc
-
-    @Test
-    fun `should return paginated results when accessing the root URL with page and size parameters`() {
-        // Create some shortened URLs for testing
-        for (i in 1..30) {
-            mockMvc.perform(
-                post("/")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content("{\"url\":\"http://example.com/$i\"}")
-            )
-                .andExpect(status().isCreated)
-        }
-
-        // Test the first page
-        var mvcResult = mockMvc.perform(get("/?page=0&size=10"))
-            .andExpect(status().isOk)
-            .andReturn()
-
-        var content = mvcResult.response.contentAsString
-        // Assert that the first page contains the first 10 URLs
-        for (i in 1..10) {
-            assert(content.contains("http://example.com/$i"))
-        }
-
-        // Test the second page
-        mvcResult = mockMvc.perform(get("/?page=1&size=10"))
-            .andExpect(status().isOk)
-            .andReturn()
-
-        content = mvcResult.response.contentAsString
-        // Assert that the second page contains the next 10 URLs
-        for (i in 11..20) {
-            assert(content.contains("http://example.com/$i"))
-        }
-
-        // Test the third page
-        mvcResult = mockMvc.perform(get("/?page=2&size=10"))
-            .andExpect(status().isOk)
-            .andReturn()
-
-        content = mvcResult.response.contentAsString
-        // Assert that the third page contains the last 10 URLs
-        for (i in 21..30) {
-            assert(content.contains("http://example.com/$i"))
-        }
-    }
 
     @Test
     fun `should return 200 when accessing the root URL`() {

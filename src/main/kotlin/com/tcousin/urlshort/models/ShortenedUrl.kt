@@ -53,6 +53,6 @@ class ShortenedUrl() {
 
     private fun generateShortUuid(): String {
         val uuid = UUID.randomUUID().toString().replace("-", "")
-        return uuid.substring(0, 12) // Adjust the length as needed
+        return uuid.substring(0, 12)
     }
 }

@@ -2,6 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     war
+    jacoco
     id("org.sonarqube") version "5.0.0.4638"
     id("org.springframework.boot") version "3.2.5"
     id("io.spring.dependency-management") version "1.1.4"
@@ -43,7 +44,15 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
     useJUnitPlatform()
-    reports.junitXml.outputLocation = layout.buildDirectory.dir("test-results/test")
+    finalizedBy("jacocoTestReport")
+}
+
+tasks.withType<JacocoReport> {
+    reports {
+        xml.required = true
+        html.required = true
+    }
+    dependsOn("test")
 }
 
 sonarqube {
@@ -52,6 +61,9 @@ sonarqube {
         property("sonar.host.url", "http://localhost:9000")
         property("sonar.token", "squ_752acaccd9861e17d4e0e56d17812b17306578e6")
         property("sonar.language", "kotlin")
-        property("sonar.junit.reportPaths", "${layout.buildDirectory.get().asFile}/test-results/test")
+        property("sonar.sources", "src/main/kotlin")
+        property("sonar.tests", "src/test/kotlin")
+        property("sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/test/jacocoTestReport.xml")
+        property("sonar.junit.reportPaths", "build/test-results/test")
     }
 }
